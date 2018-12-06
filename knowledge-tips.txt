@@ -807,3 +807,27 @@ static 函数
 https://www.jianshu.com/p/f413ba3b2728
 
 90、
+EIgen:Matricx和vector类的定义和使用
+https://blog.csdn.net/xuehuafeiwu123/article/details/75408755
+
+91、
+C++ vector模板类的问题 
+std::vector<PointT, Eigen::aligned_allocator<PointT> > points；
+模板类实例化的格式一般是 vector<数据类型> 名称，但是std::vector<PointT, Eigen::aligned_allocator<PointT>> points 这个语句明显有两个数据类型了
+实际上模板和函数一样，是可以有默认参数的，std::vector的声明是
+template<
+    class T,
+    class Allocator = std::allocator<T>
+> class vector;
+有两个模板参数，T 是元素类型，而 Allocator 负责提供 vector 需要用到的动态内存。其中 Allocator 参数有默认值，一般的使用不需要指定这个参数。但有时对内存有特殊需求，就需要提供自己定义的内存管理类。
+把容器操作和内存管理分开，这是STL的一个亮点，你在设计容器时也可以学习
+
+
+
+
+
+
+
+
+
+
