@@ -822,10 +822,62 @@ template<
 有两个模板参数，T 是元素类型，而 Allocator 负责提供 vector 需要用到的动态内存。其中 Allocator 参数有默认值，一般的使用不需要指定这个参数。但有时对内存有特殊需求，就需要提供自己定义的内存管理类。
 把容器操作和内存管理分开，这是STL的一个亮点，你在设计容器时也可以学习
 
+92、
+内存对齐问题：
+https://blog.csdn.net/huntinux/article/details/39957951
 
+93、
+string的比较：
+bool operator==(const string &s1,const string &s2)const;//比较两个字符串是否相等
+运算符">","<",">=","<=","!="均被重载用于字符串的比较；
+int compare(const string &s) const;//比较当前字符串和s的大小
+int compare(int pos, int n,const string &s)const;//比较当前字符串从pos开始的n个字符组成的字符串与s的大小
+int compare(int pos, int n,const string &s,int pos2,int n2)const;//比较当前字符串从pos开始的n个字符组成的字符串与s中pos2开始的n2个字符组成的字符串的大小
 
+94、
+const * char c_str()
+将string转换为 const* char。
 
+95、
+make_shared() shared_prt()详解区别
+https://blog.csdn.net/fanwenbo/article/details/16872153
 
+96、
+eigen坐标变换
+
+97、
+协方差矩阵：
+协方差矩阵对角元素表示的是对应的元素的方差，非对角元素则表示对应的两个元素（行与列）的相关性。
+对于ndt算法来说：
+用正态分布来表示原本离散的点云有诸多好处，这种分块的（通过一个个cell）光滑的表示是连续可导的，每一个概率密度函数可以被认为是一个局部表面（local surface）的近似,它不但描述了这个表面在空间中的位置，同时还包含了这个表面的方向和光滑性等信息。
+局部表面的方向和光滑性则可以通过协方差矩阵的特征值和特征向量反映出来。我们以三维的概率密度函数为例，如果三个特征值很接近，那么这个正态分布描述的表面是一个球面，如果一个特征值远大于另外两个特征值，则这个正态分布描述的是一条线，如果一个特征值远小于另外两个特征值，则这个正态分布描述的是一个平面。
+
+98、
+有关于ros句柄命名空间的例子，可以确定某一个句柄能访问到参数服务器的哪些变量。
+// launch 文件中 ns=="node_namespace"
+
+ros::init(argc, argv, "node_name"); // node name
+
+ros::NodeHandle n; //n 命名空间为/node_namespace
+
+ros::NodeHandle n1("sub"); // n1命名空间为/node_namespace/sub
+
+ros::NodeHandle n2(n1,"sub2");// n2命名空间为/node_namespace/sub/sub2
+
+ros::NodeHandle pn1("~"); //pn1 命名空间为/node_namespace/node_name
+
+ros::NodeHandle pn2("~sub"); //pn2 命名空间为/node_namespace/node_name/sub
+
+ros::NodeHandle pn3("~/sub"); //pn3 命名空间为/node_namespace/node_name/sub
+
+ros::NodeHandle gn("/global"); // gn 命名空间为/global
+
+99、
+c++ 枚举类型（强制类型的枚举）
+https://blog.csdn.net/u012333003/article/details/20612267
+100、
+c++中的类型转换：隐式转换和强制类型转换（与c不同）
+https://www.cnblogs.com/chio/archive/2007/07/18/822389.html
 
 
 
