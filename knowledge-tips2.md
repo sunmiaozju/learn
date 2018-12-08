@@ -1,4 +1,4 @@
-1. [ros tf模块介绍](https://sychaichangkun.gitbooks.io/ros-tutorial-icourse163/content/chapter8/8.1.html)
+##### 1. [ros tf模块介绍](https://sychaichangkun.gitbooks.io/ros-tutorial-icourse163/content/chapter8/8.1.html)
 
     ROS中的tf是一个可以让用户随时记录多个坐标系的软件包，坐标变换包括了位置和姿态两个方面的变换。tf保持缓存的树形结构中存储了坐标系之间的关系，并且允许用户在任何期望的时间点在任何两个坐标系之间转换点，矢量等．
 
@@ -28,10 +28,16 @@
     ```
     每一个broadcaster都会发出这样的消息到/tf 话题下面，众多的这个话题消息构成了TransformStamped数组，一个TransformStamped数组就是一个TF tree。
 
-2. [tf 数学基础](https://sychaichangkun.gitbooks.io/ros-tutorial-icourse163/content/chapter8old/7.1.1.html)
+##### 2. [tf 数学基础](https://sychaichangkun.gitbooks.io/ros-tutorial-icourse163/content/chapter8old/7.1.1.html)
 
-    简要介绍：
+简要介绍：
   - 旋转矩阵
   - 欧拉角 “航偏-俯仰-翻滚”（yaw-pitch-roll）。可以简单记忆rpy-xyz
   - 四元数 旋转矩阵用9个量来描述3自由度的旋转，具有冗余性；欧拉角虽然用3个量来描述3自由度的旋转，但是具有万向锁的问题，因此一般选择用四元数（ROS当中描述转向的都是采用的四元数）
   - 四元树、旋转矩阵、欧拉角都是可以两两相互转换的
+
+##### 3. clion 快捷键
+- ctrl + / 快捷注释
+- Ctrl + Alt + L 格式化代码
+- Ctrl + Alt + -/+ 展开折叠当前函数、类
+- Ctrl + Shift + -/+ 展开折叠所有函数、类
