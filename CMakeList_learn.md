@@ -2,7 +2,7 @@
 ### 一、简介
 ROS使用cmake来编译代码，cmake首先会一步一步处理CMakeLists.txt的内容，然后生成一个MakeFile文件，系统再通过这个文件的设置进行程序的编译。
 
-换句话说，Makefile文件一般是由Cmake根据CMakeLists.txt,我们不要去修改，我们只需要修改CMakeLists.txt文件就可以了，下面我们一句一句来解读CMakeList.txt的含义。
+换句话说，Makefile文件一般是由Cmake根据CMakeLists.txt生成的,我们不要去修改，我们只需要修改CMakeLists.txt文件就可以了，下面我们一句一句来解读CMakeList.txt的含义。
 ### 二、整体结构
 ROS中的CMakeLists.txt主要包括下面几个部分：
 
