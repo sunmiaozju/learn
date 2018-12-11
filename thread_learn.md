@@ -61,7 +61,7 @@ int pthread_mutex_init(pthread_mutex_t *restrict mutex,
 
 pthread_mutex_init()函数是以动态方式创建互斥锁的，参数attr指定了新建互斥锁的属性。如果参数attr为NULL，则使用默认的互斥锁属性，默认属性为快速互斥锁 。互斥锁的属性在创建锁的时候指定，不同的锁类型在试图对一个已经被锁定的互斥锁加锁时表现不同。
 
-#### 4.2 互斥锁属性
+##### 4.2 互斥锁属性
 
 互斥锁的属性在创建锁的时候指定，在LinuxThreads实现中仅有一个锁类型属性，不同的锁类型在试图对一个已经被锁定的互斥锁加锁时表现不同。当前（glibc2.2.3,linuxthreads0.9）有四个值可供选择：
 
@@ -73,7 +73,7 @@ pthread_mutex_init()函数是以动态方式创建互斥锁的，参数attr指�
 
 - PTHREAD_MUTEX_ADAPTIVE_NP，适应锁，动作最简单的锁类型，仅等待解锁后重新竞争。
 
-#### 4.3 其他锁操作
+##### 4.3 其他锁操作
 
 锁操作主要包括加锁pthread_mutex_lock()、解锁pthread_mutex_unlock()和测试加锁 pthread_mutex_trylock()三个，不论哪种类型的锁，都不可能被两个不同的线程同时得到，而必须等待解锁。
 
@@ -91,7 +91,7 @@ int pthread_mutex_trylock(pthread_mutex_t *mutex)
 ```
 pthread_mutex_trylock()语义与pthread_mutex_lock()类似，不同的是在锁已经被占据时返回EBUSY而不是挂起等待。
 
-#### 4.4 死锁:
+##### 4.4 死锁:
 
 死锁主要发生在有多个依赖锁存在时, 会在一个线程试图以与另一个线程相反顺序锁住互斥量时发生. 如何避免死锁是使用互斥量应该格外注意的东西。
 
