@@ -141,7 +141,7 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIRS})
 ```
 第一个参数“include”表示包中的include目录也是路径的一部分。
 
-还有一种是指定给某一个可执行文件添加头文件路径
+还有一种是指定给某一个构建目标添加头文件路径
 ```
 target_include_directories(ndt_matching PRIVATE ${CUDA_INCLUDE_DIRS})
 ```
@@ -181,7 +181,7 @@ target_link_libraries()来指定可执行目标链接的库，但是这一句一
 - 库目标 - 可在构建和/或运行时给可执行目标使用的库
 
 #### 7.1 构建可执行文件作为目标
-要指定需要构建的可执行目标由哪些源文件生成，需要使用add_executable（）CMake函数。
+要指定需要构建的可执行目标由哪些源文件生成，需要使用add_executable()函数。
 例如：
 ```
 add_executable(myProgram
