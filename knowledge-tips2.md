@@ -67,3 +67,87 @@ IMU（Inertial Measurement Unit）学名惯性测量单元
 
 ##### 7. tensorflow模型恢复和重建
 参考链接：[模型恢复和重建](https://blog.csdn.net/tan_handsome/article/details/79303269)
+
+##### 8. c++本地时间及log文件流
+```c++
+// Set log file name.
+std::ofstream ofs;
+char buffer[80];
+//get local time
+std::time_t now = std::time(NULL);
+std::tm* pnow = std::localtime(&now);
+std::strftime(buffer, 80, "%Y%m%d_%H%M%S", pnow);
+filename = "ndt_matching_" + std::string(buffer) + ".csv";
+ofs.open(filename.c_str(), std::ios::app);
+```
+##### 9. ros节点句柄及其命名空间
+有关于ros句柄命名空间的例子，可以确定某一个句柄能访问到参数服务器的哪些变量。
+
+launch文件中可能定义了ns=="node_namespace"，也可能没定义，这里我们假设launch中没有定义
+
+这个是定义这个节点的名字node_name，一般在私有句柄使用
+```
+ros::init(argc, argv, "node_name");
+```
+默认生成的节点句柄实例，命名空间为全局变量或者是launch文件中定义的ns=="node_namespace"（这里我们假设launch里面没有定义ns）
+```
+ros::NodeHandle n;
+```
+n1命名空间为/sub1
+```
+ros::NodeHandle n1("sub1");
+```
+n2命名空间为/sub1/sub2
+```
+ros::NodeHandle n2(n1,"sub2");
+```
+这个用～定义的节点句柄代表私有句柄，pn1的命名空间为/node_name，节点名称在前面ros::init指定的
+
+```
+ros::NodeHandle pn1("~");
+```
+pn2命名空间为/node_name/sub
+```
+ros::NodeHandle pn2("~sub");
+ros::NodeHandle pn2("~/sub"); //这么写和上面一样
+```
+gn的命名空间为/global
+
+不推荐这么做，因为这里指定了符号“/”，使得这个节点不能嵌套在其他节点的命名空间中，最好还是用上面说的相对指定的方法
+```
+ros::NodeHandle gn("/global");
+```
+再补充一点，私有句柄只能访问参数服务器中的本节点的参数
+
+比如，下面是autoware中lidar_localizer软件包中的ndt_matching节点的launch文件，那么这个节点的私有句柄就只能访问这个节点下面的param参数。
+```
+<launch>
+
+  <arg name="method_type" default="0" /> <!-- pcl_generic=0, pcl_anh=1, pcl_anh_gpu=2, pcl_openmp=3 -->
+  <arg name="use_gnss" default="1" />
+  <arg name="use_odom" default="false" />
+  <arg name="use_imu" default="false" />
+  <arg name="imu_upside_down" default="false" />
+  <arg name="imu_topic" default="/imu_raw" />
+  <arg name="queue_size" default="1" />
+  <arg name="offset" default="linear" />
+  <arg name="get_height" default="false" />
+  <arg name="use_local_transform" default="false" />
+  <arg name="sync" default="false" />
+
+  <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="log">
+    <param name="method_type" value="$(arg method_type)" />
+    <param name="use_gnss" value="$(arg use_gnss)" />
+    <param name="use_odom" value="$(arg use_odom)" />
+    <param name="use_imu" value="$(arg use_imu)" />
+    <param name="imu_upside_down" value="$(arg imu_upside_down)" />
+    <param name="imu_topic" value="$(arg imu_topic)" />
+    <param name="queue_size" value="$(arg queue_size)" />
+    <param name="offset" value="$(arg offset)" />
+    <param name="get_height" value="$(arg get_height)" />
+    <param name="use_local_transform" value="$(arg use_local_transform)" />
+    <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+  </node>
+
+</launch>
+```
