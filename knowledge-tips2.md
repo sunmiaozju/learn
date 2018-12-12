@@ -1,4 +1,4 @@
-##### 1. ros tf模块介绍
+### 1. ros tf模块介绍
 参考链接：[ros tf模块](https://sychaichangkun.gitbooks.io/ros-tutorial-icourse163/content/chapter8/8.1.html)
 
   ROS中的tf是一个可以让用户随时记录多个坐标系的软件包，坐标变换包括了位置和姿态两个方面的变换。tf保持缓存的树形结构中存储了坐标系之间的关系，并且允许用户在任何期望的时间点在任何两个坐标系之间转换点，矢量等．
@@ -29,7 +29,7 @@
   ```
   每一个broadcaster都会发出这样的消息到/tf 话题下面，众多的这个话题消息构成了TransformStamped数组，一个TransformStamped数组就是一个TF tree。
 
-##### 2. tf 数学基础
+### 2. tf 数学基础
 参考链接：[tf 数学基础](https://sychaichangkun.gitbooks.io/ros-tutorial-icourse163/content/chapter8old/7.1.1.html)
 
 简要介绍：
@@ -38,20 +38,20 @@
   - 四元数 旋转矩阵用9个量来描述3自由度的旋转，具有冗余性；欧拉角虽然用3个量来描述3自由度的旋转，但是具有万向锁的问题，因此一般选择用四元数（ROS当中描述转向的都是采用的四元数）
   - 四元树、旋转矩阵、欧拉角都是可以两两相互转换的
 
-##### 3. clion 快捷键
+### 3. clion 快捷键
 - ctrl + / 快捷注释
 - Ctrl + Alt + L 格式化代码
 - Ctrl + Alt + -/+ 展开折叠当前函数、类
 - Ctrl + Shift + -/+ 展开折叠所有函数、类
 
-##### 4. imu介绍
+### 4. imu介绍
 IMU（Inertial Measurement Unit）学名惯性测量单元
 
 理论力学告诉我们，所有的运动都可以分解为一个直线运动和一个旋转运动，故这个惯性测量单元就是测量这两种运动，直线运动通过加速度计可以测量，旋转运动则通过陀螺。一般的，一个IMU包含了三个单轴的加速度计和三个单轴的陀螺，加速度计检测物体在载体坐标系统独立三轴的加速度信号，而陀螺检测载体相对于导航坐标系的角速度信号，测量物体在三维空间中的角速度和加速度，并以此解算出物体的姿态。在导航中用着很重要的应用价值。为了提高可靠性，还可以为每个轴配备更多的传感器。一般而言IMU要安装在被测物体的重心上。
 
 通过加速度计一次积分可以得到速度，加速度计可以二次积分得出位移，陀螺仪一次积分可以得到欧拉角度
 
-##### 5. ros机器人坐标系
+### 5. ros机器人坐标系
 最常用的就是**map，odom，base_link，base_laser**坐标系
 
 - map:地图坐标系，顾名思义，一般设该坐标系为固定坐标系（fixed frame），一般与机器人所在的世界坐标系一致。
@@ -62,13 +62,13 @@ IMU（Inertial Measurement Unit）学名惯性测量单元
 
 - base_laser:激光雷达的坐标系，与激光雷达的安装点有关，其与base_link的tf为固定的。
 
-##### 6. tesnorboard使用
+### 6. tesnorboard使用
 参考链接：[TensorBoard可视化网络结构和参数](https://blog.csdn.net/helei001/article/details/51842531)
 
-##### 7. tensorflow模型恢复和重建
+### 7. tensorflow模型恢复和重建
 参考链接：[模型恢复和重建](https://blog.csdn.net/tan_handsome/article/details/79303269)
 
-##### 8. c++本地时间及log文件流
+### 8. c++本地时间及log文件流
 ```c++
 // Set log file name.
 std::ofstream ofs;
@@ -80,7 +80,7 @@ std::strftime(buffer, 80, "%Y%m%d_%H%M%S", pnow);
 filename = "ndt_matching_" + std::string(buffer) + ".csv";
 ofs.open(filename.c_str(), std::ios::app);
 ```
-##### 9. ros节点句柄及其命名空间
+### 9. ros节点句柄及其命名空间
 有关于ros句柄命名空间的例子，可以确定某一个句柄能访问到参数服务器的哪些变量。
 
 launch文件中可能定义了ns=="node_namespace"，也可能没定义，这里我们假设launch中没有定义
