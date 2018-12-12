@@ -811,7 +811,7 @@ EIgen:Matricx和vector类的定义和使用
 https://blog.csdn.net/xuehuafeiwu123/article/details/75408755
 
 91、
-C++ vector模板类的问题 
+C++ vector模板类的问题
 std::vector<PointT, Eigen::aligned_allocator<PointT> > points；
 模板类实例化的格式一般是 vector<数据类型> 名称，但是std::vector<PointT, Eigen::aligned_allocator<PointT>> points 这个语句明显有两个数据类型了
 实际上模板和函数一样，是可以有默认参数的，std::vector的声明是
@@ -839,7 +839,7 @@ const * char c_str()
 将string转换为 const* char。
 
 95、
-make_shared() shared_prt()详解区别
+make_shared() shared_prt()的详解区别
 https://blog.csdn.net/fanwenbo/article/details/16872153
 
 96、
@@ -879,8 +879,3 @@ https://blog.csdn.net/u012333003/article/details/20612267
 100、
 c++中的类型转换：隐式转换和强制类型转换（与c不同）
 https://www.cnblogs.com/chio/archive/2007/07/18/822389.html
-
-
-
-
-
