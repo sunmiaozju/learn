@@ -151,3 +151,5 @@ ros::NodeHandle gn("/global");
 
 </launch>
 ```
+#### 10. python 多进程处理
+参考链接：[python 多进程](https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431927781401bb47ccf187b24c3b955157bb12c5882d000)

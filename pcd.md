@@ -86,5 +86,3 @@ DATA ascii //该数据集用ASCLL码存储数据
 -4.12496 5.602794 2.824819
 ......
 ```
-
-参考链接：[PCD文件格式详解](https://blog.csdn.net/BaiYu_King/article/details/81782789)
