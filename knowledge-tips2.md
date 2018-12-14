@@ -204,6 +204,7 @@ gedit ~/.bashrc
 # set alias
 alias gpush='git push origin master'
 alias gadd='git add .'
+alias gcommit='git commit -m'
 alias gstatus='git status'
 alias yunle='ssh yunle@10.0.0.3'
 alias smartcar='ssh smartcar@10.214.143.121'
