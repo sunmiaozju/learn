@@ -189,3 +189,27 @@ a2 = np.random.choice(a=5, size=3, replace=False, p=[0.2, 0.1, 0.3, 0.4, 0.0])
 #### 12. numpy.transpose 详解
 
 参考链接：[numpy.transpose 详解](https://blog.csdn.net/u012762410/article/details/78912667)
+
+#### 13. 使用alias设置方便的快捷指令
+alias是shell的内建命令，可以用于创建命令的别名，可以把我们需要经常输入的长命令替换为自定义的简短命令，更加方便。语法非常简单：
+```
+alias your_alias='old_long_command'
+```
+比如我们可以把远程连接ssh的，常用的git命令起个别名，例如，首先打开
+```
+gedit ~/.bashrc
+```
+在后面输入下面的内容
+```
+# set alias
+alias gpush='git push origin master'
+alias gadd='git add .'
+alias gstatus='git status'
+alias yunle='ssh yunle@10.0.0.3'
+alias smartcar='ssh smartcar@10.214.143.121'
+```
+然后
+```
+source ~/.bashrc
+```
+之后，就可以使用新定义的别名来代替原来的长命令了，而且还支持tab补全
