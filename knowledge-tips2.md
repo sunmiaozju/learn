@@ -151,10 +151,10 @@ ros::NodeHandle gn("/global");
 
 </launch>
 ```
-#### 10. python 多进程处理
+### 10. python 多进程处理
 参考链接：[python 多进程](https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431927781401bb47ccf187b24c3b955157bb12c5882d000)
 
-#### 11. np.random.choice()用法
+### 11. np.random.choice()用法
 ```
 a1 = np.random.choice(a=5, size=3, replace=False, p=None)
 ```
@@ -186,11 +186,11 @@ True的话， 是放回抽样，出来的数有可能会重复。
 a2 = np.random.choice(a=5, size=3, replace=False, p=[0.2, 0.1, 0.3, 0.4, 0.0])
 ```
 
-#### 12. numpy.transpose 详解
+### 12. numpy.transpose 详解
 
 参考链接：[numpy.transpose 详解](https://blog.csdn.net/u012762410/article/details/78912667)
 
-#### 13. 使用alias设置方便的快捷指令
+### 13. 使用alias设置方便的快捷指令
 alias是shell的内建命令，可以用于创建命令的别名，可以把我们需要经常输入的长命令替换为自定义的简短命令，更加方便。语法非常简单：
 ```
 alias your_alias='old_long_command'
