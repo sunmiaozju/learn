@@ -153,3 +153,39 @@ ros::NodeHandle gn("/global");
 ```
 #### 10. python 多进程处理
 参考链接：[python 多进程](https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431927781401bb47ccf187b24c3b955157bb12c5882d000)
+
+#### 11. np.random.choice()用法
+```
+a1 = np.random.choice(a=5, size=3, replace=False, p=None)
+```
+函数的作用是从[0,5)中以概率P，随机选择3个, p没有指定的时候相当于是一致的分布，
+
+replace代表是不是放回抽样，如果是False的话，那么是不放回抽样，出来的数都不一样，如果是
+True的话， 是放回抽样，出来的数有可能会重复。
+
+输出的结果如下所示：
+```
+>>> a1 = np.random.choice(a=5, size=3, replace=False, p=None)
+>>> print a1
+[4 1 2]
+>>> a1 = np.random.choice(a=5, size=3, replace=False, p=None)
+>>> print a1
+[0 4 2]
+>>> a1 = np.random.choice(a=5, size=3, replace=False, p=None)
+>>> print a1
+[4 2 1]
+>>> a1 = np.random.choice(a=5, size=3, replace=False, p=None)
+>>> print a1
+[4 1 2]
+>>> a1 = np.random.choice(a=5, size=3, replace=False, p=None)
+>>> print a1
+[2 0 4]
+```
+如果是要非一致的分布，可以指定每一个的概率：
+```
+a2 = np.random.choice(a=5, size=3, replace=False, p=[0.2, 0.1, 0.3, 0.4, 0.0])
+```
+
+#### 12. numpy.transpose 详解
+
+参考链接：[numpy.transpose 详解](https://blog.csdn.net/u012762410/article/details/78912667)
