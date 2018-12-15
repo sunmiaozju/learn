@@ -214,3 +214,8 @@ roslaunch razor_imu_9dof razor-pub-and-dislay.launch
 ![555](./pictures/555.png)
 
 到此为止，在TX2上面已经可以使用razor-9dof 这款IMU ，我们就可以使用IMU来优化的我们代码了。Yeah!
+
+### 七、参考链接：
+1. [ROS razor_imu_9dof](http://wiki.ros.org/razor_imu_9dof)
+2. [Build Kernel and ttyACM Module](https://www.jetsonhacks.com/2017/07/31/build-kernel-ttyacm-module-nvidia-jetson-tx2/)
+3. [Razor IMU ROS INSTALL](https://www.jetsonhacks.com/2016/07/01/jetson-racecar-part-9-razor-imu-ros-install/)

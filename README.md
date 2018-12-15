@@ -12,3 +12,5 @@
 5. [c++多线程总结](./thread_learn.md)
 
 6. [ros CMakeLists.txt解读](./CMakeList_learn.md)
+
+7. [TX2 使用razor-9dof IMU](./IMU_TX2.md)
