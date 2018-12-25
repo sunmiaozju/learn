@@ -3,6 +3,7 @@
 #### 一、创建线程
 ```
 #include <pthread.h>
+pthread_t thread;
 pthread_create (thread, attr, start_routine, arg)
 ```
 创建线程成功时，函数返回 0，若返回值不为 0 则说明创建线程失败。

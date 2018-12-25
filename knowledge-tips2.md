@@ -227,3 +227,90 @@ du -h
 ```
 du -h --max-depth=1
 ```
+
+### 15. C++ string 转化为 C语言的 char *
+```
+your_string_name.c_str()
+```
+### 16、 ROS设置更新频率
+LOOP_RATE_ = 30 代表你的处理会被归一化到30hz
+```
+ros::Rate loop_rate(LOOP_RATE_);
+while(ros::ok){
+    ros::spinOnce();
+    //your_process_code is here
+    loop_rate.sleep();
+}
+```
+### 17、设置ROS通讯连接
+假设A是ROS的主机,先确定主机的ip地址和ROS_MASTER_URI参数
+```
+echo $ROS_MASTER_URI
+ifconfig
+```
+输出：
+```
+http://localhost:11311
+```
+然后，需要连接到一个ROS通讯系统的设备要和主机连接到同一个局域网上
+将设备的ROS_MASTER_URI设置为
+```
+export ROS_MASTER_URI="http://10.0.0.23:11311"
+```
+写到～/.basherc
+
+### 18、ROS launch文件导入其他launch文件和yaml文件
+```
+<launch>
+  <include file="$(find kinect2_bridge)/launch/kinect2_bridge_ir.launch"/>
+  <node pkg="detection" type="ground_based_people_detector" name="ground_based_people_detector" output="screen">
+    <rosparam command="load" file="$(find detection)/conf/ground_based_people_detector_kinect2.yaml" />
+  </node>
+</launch>
+```
+
+### 19、vscode配置c++编译环境
+##### 安装“c/c++”插件
+到vscode左边栏的EXTENSIONS中，搜索“C/C++”并安装
+##### 修改c_cpp_properties.json
+vscode自身配置文件全部在./.vscode/目录下
+
+但是，在最开始对自己新建的文件夹进行编辑后，文件夹里面是没有.vscode目录的
+
+同时，我们的cpp文件代码中的 #include <> 这句话是有红色下划线警示的，提示找不到文件，这时使用鼠标悬浮功能，点击“红色灯泡”，点击edit c_cpp_properties.json选项，vscode会自动在配置文件夹中新建.vscode/文件夹，同时在里面初始化了c_cpp_properties.json文件
+
+##### 输出编译命令文件 
+这时，可能还有一些头文件找不到，比如ros/ros.h，我们还需要配置一些东西。
+
+用命令行编译我们写的c++代码，这里以ROS为例
+```
+catkin_make -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes
+```
+这个命令会输出一个compile_commands.json文件在ROS工作空间的build文件夹下面
+
+然后在c_cpp_properties.json文件添加这么一段话
+```
+"compileCommands": "${workspaceFolder}/build/compile_commands.json"
+```
+修改后的c_cpp_properties.json文件如下所示：
+```
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+
+    "version": 4
+}
+```
+这样，就基本可以找到全部头文件了，然后就可以使用代码提示来码代码了。
