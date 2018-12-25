@@ -268,3 +268,38 @@ export ROS_MASTER_URI="http://10.0.0.23:11311"
   </node>
 </launch>
 ```
+### 18、rqt工具的使用
+无敌强大的rqt工具
+#### 安装rqt工具
+```
+sudo apt-get install ros-indigo-rqt
+sudo apt-get install ros-indigo-rqt-common-plugins
+```
+运行rqt，并监测话题
+
+#### rqt_plot工具
+
+可以监视某一个话题发布的消息数据
+
+方法（1）启动 rqt_plot
+```
+rqt_plot
+rosrun rqt_plot rqt_plot)
+```
+在列表框选择（或写入）要监测的话题，例如：/turtle1/pose/（话题的所有参数）或者/turtle1/pose/x（话题的某一参数），然后点击加号。
+
+方法（2）同样也可以通过命令监测话题，
+```
+rqt_plot /turtle1/pose/x:y
+
+rqt_plot /turtle1/pose/x /turtle1/pose/y （话题的部分参数）
+
+rqt_plot /turtle1/pose         (话题的所有参数)
+```
+#### rqt_graph工具
+
+可以监视当前ROS系统的话题和节点的网络结构
+
+```
+rqt_graph
+```
