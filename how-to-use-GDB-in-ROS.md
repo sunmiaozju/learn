@@ -1,31 +1,23 @@
 ## 引言
-介绍如何使用GDB来进行ROS项目的调试
+在写ROS工程代码，有时候找一个bug非常麻烦，尤其是运行时出错的bug，这时候借助一些调试器可以极大了提高查找bug的效率。
 
-## 使用debug编译
-编译器有些优化会让debug无法进行。为了避免这种情况，程序编译时要加上debug选项。
+下面介绍如何使用GDB调试器来进行ROS C++项目的调试
 
-如果用Catkin，用catkin_make 时加上一个参数：
+## 在debug模式编译
+编译器有些优化会让debug无法进行。为了避免这种情况，程序编译时要加上debug选项，让cmake以debug模式编译，不然可能会在gdb调试的时候不能跳转到源代码，只能进入断点。
+
+如果用命令行catkin_make，在输入catkin_make时加上一个参数：
 ```
 catkin_make -DCMAKE_BUILD_TYPE=Debug
 ```
-如果想给Release版本Debug，就这样
-```
-catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo
-```
-如果用Rosbuild，在你的CMakeLists.txt靠近顶部的位置加上这样一句即可：
-```
-set(ROS_BUILD_TYPE Debug)
-```
-或者直接修改CMakelist.txt，这一步需要注意。要添加以下代码,让cmake以debug模式编译，不然在gdb调试的时候不能跳转到源代码，只能进入断点。
+或者直接修改CMakelist.txt，添加以下代码,
 ```
 SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 ```
-## 在GDB里面运行程序
-修改ROS launch文件
-
-在node标签中添加一句话
+## 添加GDB调试指令
+修改ROS launch文件，在node标签中添加一句话
 ```xml
 launch-prefix="xterm -e gdb -ex run --args "
 ```
@@ -73,7 +65,7 @@ launch-prefix="xterm -e python -m pdb "
 ----|---  |
 gdb |打开调试器
 file FILE |装载指定可执行文件
-r|从头开始运行程序直到断点。在一次debug中你可以通过用 r 来多次重新运行程序，而不必重新rosrun 或 roslaunch.
+r|代表run,从头开始运行程序直到断点。在一次debug中你可以通过用 r 来多次重新运行程序，而不必重新rosrun 或 roslaunch.
 q|退出debug。
 bt|列出调用堆栈。
 ### 显示被调试文件信息

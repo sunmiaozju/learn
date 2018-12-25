@@ -14,3 +14,7 @@
 6. [ros CMakeLists.txt解读](./CMakeList_learn.md)
 
 7. [TX2 使用razor-9dof IMU](./IMU_TX2.md)
+
+8. [ros项目调试:ROS项目使用GDB调试](how-to-use-GDB-in-ROS.md)
+
+9. [ros项目调试:vscode下配置开发ROS项目](how-to-config-vscode-for-ROS.md)
