@@ -18,3 +18,5 @@
 8. [ros项目调试:ROS项目使用GDB调试](how-to-use-GDB-in-ROS.md)
 
 9. [ros项目调试:vscode下配置开发ROS项目](how-to-config-vscode-for-ROS.md)
+
+10. [ros项目调试:rqt工具的使用](how-to-use-rqt-in-ROS.md)
