@@ -52,6 +52,8 @@ catkin_make -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes
     "version": 4
 }
 ```
+添加之后，记得reload或者重启一下vscode
+
 这样，就基本可以找到全部头文件了，然后就可以使用代码提示来码代码了。
 
 ## catkin_make设置
@@ -71,7 +73,7 @@ Ctrl+shift+P进入命令模式，键入tasks: Configure Task
             "args": [],//如果需要在命令后面加一些后缀，可以写在这里，比如-DCATKIN_WHITELIST_PACKAGES=“pac1;pac2”
             "group": {"kind":"build","isDefault":true},
             "presentation": {
-                "reveal": "always"//可选always或者silence，代表是否输出信息
+                "reveal": "always"//可选always或者silence，前者代表输出总是build信息，后者代表仅在有错误的时候输出build信息，如果没有错误，则不输出信息
             },
             "problemMatcher": "$msCompile"
         },
@@ -142,6 +144,8 @@ GDB调试器是调试C++代码的神器，ROS项目本质上也是一个ROS项�
 有关于常用的GDB命令总结：[GDB的使用](how-to-use-GDB-in-ROS.md)
 
 还需要注意的是在Watch窗口添加需要Watch的变量时候，变量名称要写全局名称，包括前面的命令空间都要写上
+
+或者也可以直接选中这个变量，右键点击，选择“Debug:add to watch”,这样更方便。
 
 基于上面的描述，我们就可以开心的debug了
 

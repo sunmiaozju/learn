@@ -24,7 +24,7 @@ launch-prefix="xterm -e gdb -ex run --args "
 
 修改后的launch文件如下所示
 ```xml
-<node pkg="waypoint_follower" type="pure_persuit" name="pure_pursuit" output="screen" launch-prefix="xterm -e gdb -ex run --args">
+<node pkg="waypoint_follower" type="pure_persuit" name="pure_pursuit" output="screen" launch-prefix="xterm -e gdb --args">
         <param name="is_linear_interpolation" value="$(arg is_linear_interpolation)"/>
 </node>
 ```

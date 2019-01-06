@@ -268,3 +268,215 @@ export ROS_MASTER_URI="http://10.0.0.23:11311"
   </node>
 </launch>
 ```
+
+### 19、 vscode 常用快捷键
+快捷键|说明
+---|---
+Ctrl + K Ctrl + 0  | 折叠所有代码块
+Ctrl + Shift + i |  格式化代码
+
+### 20、std::getline
+
+getline从输入流中读取字符, 并把它们转换成字符串.可以使用std::getline()拆分字符串
+
+getline(input, str, ',')
+
+参数
+```
+input - 流中获取数据
+str - 把数据转换成字符串
+delim - 分隔符
+```
+示例：
+拆分字符串代码：
+```c++
+std::string ss("whis is a test")
+std::istringstream ss(line);
+std::string column;
+while (std::getline(ss, column, ' '))
+  {
+    //todo
+  }
+```
+需要注意的是，流文件读取数据的时候，类似于输入流，输入的东西都是按顺序进行的，输入进来第一行，再次调用getline()输入进来的就是后面的一行了
+
+### 21、string.c_str()
+将C++里面的string类型转化为C里面的char *类型
+
+### 22、C++字符串处理：文件路径提取文件名称
+```c++
+std::string filepath("/home/sunmiao/test.csv");
+std::string suffix("_replanned");
+std::string tmp = file_path;
+const std::string::size_type idx_slash = tmp.find_last_of("/");
+if (idx_slash != std::string::npos)
+{
+    tmp.erase(0, idx_slash);
+}
+const std::string::size_type idx_dot = tmp.find_last_of(".");
+const std::string::size_type idx_dot_allpath = file_path.find_last_of(".");
+if (idx_dot != std::string::npos && idx_dot != tmp.size() - 1)
+{
+    file_path.erase(idx_dot_allpath, file_path.size() - 1);
+}
+new_file_path += suffix + ".csv";
+
+```
+find_last_of()代表从后向前查找
+
+所有的string.find查找函数都返回一个size_type类型，这个返回值一般都是所找到字符串的位置，如果没有找到，则返回string::npos.
+
+### 23、vector中insert()的用法详解
+```
+iterator insert( iterator loc, const TYPE &val );
+void insert( iterator loc, size_type num, const TYPE &val );
+void insert( iterator loc, input_iterator start, input_iterator end );
+```
+insert() 函数有以下三种用法:
+
+> 在指定位置loc前插入值为val的元素,返回指向这个元素的迭代器
+>
+> 在指定位置loc前插入num个值为val的元素
+>
+> 在指定位置loc前插入区间[start, end)的所有元素 .
+
+### 24、OpenCV-截取图片中的一部分
+
+一般常见的方法是：
+```
+Mat image= imread(“图片路径”)；
+Rect rect(10, 20, 100, 50);
+Mat image_roi = image(rect);
+```
+rect的4个参数为起点x坐标，y坐标，x距离，y距离
+
+### 25、OpenCV compare()函数介绍
+OpenCV中定义在core.hpp中的compare()函数原型如下：
+```
+void compare(InputArray src1, InputArray src2, OutputArray dst, int cmpop);
+```
+函数作用：
+
+按照指定的操作cmpop，比较输入的src1和src2中的元素，输出结果到dst中
+
+参数解释：
+> src1：原始图像1（必须是单通道）或者一个数值，比如是一个Mat或者一个单纯的数字n；
+>
+> src2：原始图像2（必须是单通道）或者一个数值，比如是一个Mat或者一个单纯的数字n；
+>
+> dst：结果图像，类型是CV_8UC1，即单通道8位图，大小和src1和src2中最大的那个一样，比较结果为真的地方值为         255，否则为0；
+>
+> cmpop：操作类型，有以下几种类型：
+>
+>       enum { CMP_EQ=0,    //相等
+>
+> 	           CMP_GT=1,   //大于
+>
+> 	           CMP_GE=2,   //大于等于
+>
+> 	           CMP_LT=3,   //小于
+>
+> 	           CMP_LE=4,   //小于等于
+>
+> 	           CMP_NE=5 }; //不相等
+
+
+函数原理：
+
+从参数的要求可以看出，compare函数只对以下三种情况进行比较：
+
+1. array和array
+
+    此时输入的src1和src2必须是相同大小的单通道图，否则没办法进行比较了。计算过程就是：
+
+    dst(i) = src1(i) cmpop src2(i)
+
+    也就是对src1和src2逐像素进行比较。
+
+2. array和scalar
+
+    此时array仍然要求是单通道图，大小无所谓，因为scalar只是一个单纯的数字而已。比较过程是把array中的每个元素逐个和scalar进行比较，所以此时的dst大小和array是一样 的。计算过程是：
+
+    dst(i) = src1(i) cmpop scalar
+
+3. scalar和array
+
+    这个就是2的反过程了，只是比较运算符cmpop左右的参数顺序不一样了而已。计算过程如下：
+
+    dst(i) = scalar cmpop src2(i)
+
+用途举例：
+
+这个函数有一个很有用的地方就是：当你需要从一幅图像中找出那些特定像素值的像素时，可以用这个函数。类似与threshold()函数，但是threshold()函数是对某个区间内的像素值进行操作，compare()函数则可以只是对某一个单独的像素值进行操作。比如我们要从图像中找出像素值为50的像素点，可以下面这样做：
+```
+cv::Mat result;
+cv::compare(image,50, result, cv::CMP_EQ);
+```
+
+### 26、通过 iterable 对象来迭代
+
+for i in range(1000): pass
+会导致生成一个 1000 个元素的 List，而代码：
+
+for i in xrange(1000): pass
+则不会生成一个 1000 个元素的 List，而是在每次迭代中返回下一个数值，内存空间占用很小。因为 xrange 不返回 List，而是返回一个 iterable 对象。
+
+### 27、使用yield的函数
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+def fab(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        yield b      # 使用 yield
+        # print b
+        a, b = b, a + b
+        n = n + 1
+
+for n in fab(5):
+    print n
+```
+yield的操作，使得函数获得了iterable的效果。
+
+执行函数的输出结果
+```
+1
+1
+2
+3
+5
+```
+
+简单地讲，yield 的作用就是把一个函数变成一个 generator，带有 yield 的函数不再是一个普通函数，Python 解释器会将其视为一个 generator，调用 fab(5) 不会执行 fab 函数，而是返回一个 iterable 对象！
+
+在 for 循环执行时，每次循环都会执行 fab 函数内部的代码，执行到 yield b 时，fab 函数就返回一个迭代值，下次迭代时，代码从 yield b 的下一条语句继续执行，而函数的本地变量看起来和上次中断执行前是完全一样的，于是函数继续执行，直到再次遇到 yield。
+
+也可以手动调用 fab(5) 的 next() 方法，因为 fab(5) 是一个 generator 对象，该对象具有 next() 方法，这样我们就可以更清楚地看到 fab 的执行流程：
+
+示例：
+```
+>>>f = fab(5)
+>>> f.next()
+1
+>>> f.next()
+1
+>>> f.next()
+2
+>>> f.next()
+3
+>>> f.next()
+5
+>>> f.next()
+Traceback (most recent call last):
+ File "<stdin>", line 1, in <module>
+StopIteration
+```
+当函数执行结束时，generator 自动抛出 StopIteration 异常，表示迭代完成。在 for 循环里，无需处理 StopIteration 异常，循环会正常结束。
+
+我们可以得出以下结论：
+
+一个带有 yield 的函数就是一个 generator，它和普通函数不同，生成一个 generator 看起来像函数调用，但不会执行任何函数代码，直到对其调用 next()（在 for 循环中会自动调用 next()）才开始执行。虽然执行流程仍按函数的流程执行，但每执行到一个 yield 语句就会中断，并返回一个迭代值，下次执行时从 yield 的下一个语句继续执行。看起来就好像一个函数在正常执行的过程中被 yield 中断了数次，每次中断都会通过 yield 返回当前的迭代值。
+
+yield 的好处是显而易见的，把一个函数改写为一个 generator 就获得了迭代能力，比起用类的实例保存状态来计算下一个 next() 的值，不仅代码简洁，而且执行流程异常清晰。
