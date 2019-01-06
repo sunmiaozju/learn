@@ -21,4 +21,6 @@
 
 10. [ros项目调试:rqt工具的使用](how-to-use-rqt-in-ROS.md)
 
-11. [opencv 数据类型总结](opencv-data-type.md) 
+11. [opencv 数据类型总结](opencv-data-type.md)
+
+12. [opencv 图像深拷贝、浅拷贝与蒙版拷贝](opencv-copy-image.md) 
