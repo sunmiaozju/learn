@@ -85,6 +85,11 @@ ofs.open(filename.c_str(), std::ios::app);
 
 launch文件中可能定义了ns=="node_namespace"，也可能没定义，这里我们假设launch中没有定义
 
+如果要是定义了，那么就像下面这样：
+```xml
+<node pkg="image_processor" type="image_rectifier" name="rectifier" ns="$(arg camera_id)" output="screen">
+```
+
 这个是定义这个节点的名字node_name，一般在私有句柄使用
 ```
 ros::init(argc, argv, "node_name");
@@ -524,3 +529,37 @@ for( theIterator = alphaVector.begin(); theIterator != alphaVector.end(); theIte
 ```
 输出结果为：
 CCCCABCDEFGHIJ
+
+### 30、c++ 初始化列表
+c++ 初始化列表要按照先后声明的顺序来进行初始化，否则会报下面这个warning
+```
+warning: 'CAsyncSQL::m_iCopiedQuery' will be initialized after [-Wreorder]
+```
+
+### 31、ROS remap使用
+remap的作用就是将原来的一个话题的消息内容，“复制”到另一个话题里面，可以修改订阅的话题，也可以修改发布的话题，例如
+```xml
+<node pkg="turtlesim" name="mimic" type="mimic">
+    <remap from="input" to="turtlesim1/turtle1"/>
+    <remap from="output" to="turtlesim2/turtle1"/>
+</node>
+```
+这种remap的写法是写在launch里面，是将当前节点订阅的话题input的映射到话题turtlesim1/turtle1
+
+from的就是原来话题的内容，to的就是新的话题内容，里面的消息是和from对应的话题是一样的。
+
+也可以写在命令行里面，但是比较麻烦，如下所示：
+```
+rosbag play ros.bag  /image_raw:=/camera/image_raw
+```
+这个意思就是将原来的话题消息/image_raw,映射到了/camera/imgae_raw，两个话题里面的消息都是一致的
+
+### 32、ROS设置判断条件是否启动节点
+```xml
+ <arg name="compressed_stream" default="false" />
+
+<node if="$(arg compressed_stream)" pkg="image_transport" name="decompress" type="republish"  output="screen" args="compressed in:=/$(arg camera_id)/$(arg image_src) raw out:=/$(arg camera_id)/$(arg image_src)" />
+```
+分析上面的代码，就是说如果compressed_stream变量为true，那么就启动这个节点，如果变量为false，那么就不启动这个节点。
+
+后面的args=参数的含义是进行了一个话题的remap操作。
