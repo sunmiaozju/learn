@@ -264,6 +264,9 @@ export ROS_MASTER_URI="http://10.0.0.23:11311"
 ```
 写到～/.basherc
 
+同时还要修改host，具体方法参考如下链接：
+https://blog.csdn.net/heyijia0327/article/details/42065293
+
 ### 18、ROS launch文件导入其他launch文件和yaml文件
 ```
 <launch>
