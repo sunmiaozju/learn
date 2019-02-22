@@ -566,3 +566,9 @@ rosbag play ros.bag  /image_raw:=/camera/image_raw
 分析上面的代码，就是说如果compressed_stream变量为true，那么就启动这个节点，如果变量为false，那么就不启动这个节点。
 
 后面的args=参数的含义是进行了一个话题的remap操作。
+
+### 33. vscode markdown 预览
+快捷命令 ctrl + shift + v
+
+### 34、旋转矩阵推导
+https://blog.csdn.net/TOM_00001/article/details/62054572
