@@ -572,3 +572,8 @@ rosbag play ros.bag  /image_raw:=/camera/image_raw
 
 ### 34、旋转矩阵推导
 https://blog.csdn.net/TOM_00001/article/details/62054572
+
+### 35、roslaunch 启动 rviz
+```
+<node pkg="rviz" type="rviz" name="Rviz_for_ndt_localization" args="-d $(find visualization)/rviz/visualization.rviz" />
+```
