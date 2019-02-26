@@ -28,8 +28,10 @@ Rollouts 的含义就是根据中心全局路径生成的一些列候选局部�
 [SmartCAR](https://github.com/sunmiaozju/smartcar)
 
 参考论文：
-Open Source Integrated Planner for Autonomous Navigation in Highly Dynamic Environments.pdf
+Open Source Integrated Planner for Autonomous Navigation in Highly Dynamic Environments
 
+完整的论文地址：
+[github-smartcar/planning/local_planner/docs/Open Source Integrated Planner for Autonomous Navigation in Highly Dynamic Environments.pdf](https://github.com/sunmiaozju/smartcar/tree/dev_sunm/planning/local_planner/docs)
 
 ### 二、Rollouts Generator
 
@@ -50,6 +52,8 @@ rollout部分从平行采样的起点到最大规划距离，这部分里每一�
 生成rollouts的算法主要包括三个部分：1、截取全局路径，长度为最大局部路径规划距离。2、针对截取的全局路径进行点采样。3、平滑得到的采样点，生成最终候选轨迹。具体如下图所示：
 
 ![dd](../pics/generator.png)
+
+主循环函数主要的内容就是extractPartFromTrajectory()和generateRunoffTrajectory()。具体代码细节可以参考github.
 
 ```c++
 /**
@@ -94,7 +98,6 @@ void RolloutGenerator::run()
 }
 ```
 
-主循环函数主要的内容就是extractPartFromTrajectory()和generateRunoffTrajectory()。具体代码细节可以参考github.
 
 
 ### 三、Rollouts Evaluator
