@@ -281,7 +281,10 @@ https://blog.csdn.net/heyijia0327/article/details/42065293
 快捷键|说明
 ---|---
 Ctrl + K Ctrl + 0  | 折叠所有代码块
+Ctrl + K Ctrl + j  | 展开所有代码块
 Ctrl + Shift + i |  格式化代码
+Ctrl + Shift + v |  查看markdown文件  
+
 
 ### 20、std::getline
 
@@ -576,4 +579,10 @@ https://blog.csdn.net/TOM_00001/article/details/62054572
 ### 35、roslaunch 启动 rviz
 ```
 <node pkg="rviz" type="rviz" name="Rviz_for_ndt_localization" args="-d $(find visualization)/rviz/visualization.rviz" />
+```
+
+### 36、设置某一数据类型的最大值
+例如：设置float数据类型的最大值
+```
+std::numeric_limits<float>::max()
 ```

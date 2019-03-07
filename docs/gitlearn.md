@@ -255,6 +255,11 @@ git log --graph
 git remote
 git remote -v
 ```
+获取远程repo所有分支,如果本地没有获取远程分支，那么建立本地分支和远程分支的时候会找不到远程分支
+```
+git fetch (远程代码仓库名，例如origin)
+```
+
 提交本地分支:
 ```
 git push 远程库名字（一般是origin）远程分支的名字（例如master或者dev）
