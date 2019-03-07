@@ -577,3 +577,6 @@ https://blog.csdn.net/TOM_00001/article/details/62054572
 ```
 <node pkg="rviz" type="rviz" name="Rviz_for_ndt_localization" args="-d $(find visualization)/rviz/visualization.rviz" />
 ```
+
+### 36、ubuntu主题美化
+https://blog.csdn.net/White_Idiot/article/details/78973575
