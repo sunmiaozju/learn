@@ -283,7 +283,7 @@ https://blog.csdn.net/heyijia0327/article/details/42065293
 Ctrl + K Ctrl + 0  | 折叠所有代码块
 Ctrl + K Ctrl + j  | 展开所有代码块
 Ctrl + Shift + i |  格式化代码
-Ctrl + Shift + v |  查看markdown文件  
+Ctrl + Shift + v |  查看markdown文件
 
 
 ### 20、std::getline
@@ -591,3 +591,230 @@ https://blog.csdn.net/White_Idiot/article/details/78973575
 std::numeric_limits<float>::max()
 ```
 
+### 38、ubuntu查看历史命令
+Ctrl+R 快捷键。此快捷键让你对命令历史进行搜索，对于想要重复执行某个命令的时候非常有用。当找到命令后，通常再按回车键就可以执行该命令。如果想对找到的命令进行调整后再执行，则可以按一下左或右方向键
+
+### 39、ubuntu 终端常用快捷方式
+快捷键|说明
+---|---
+Ctrl+Alt+T| 启动终端
+F11	| 全屏切换
+Ctrl+Shift+C|	 复制
+Ctrl+Shift+V|	 粘贴
+Ctrl+Shift+T|	 新建标签页
+Ctrl+Shift+W|	 关闭标签页
+Ctrl+R|	 反向搜索历史命令
+Ctrl+L|清除当前屏幕内容（同 clear命令功能)
+
+### 40、配置TX2同时连接激光雷达有线网和wifi无线网
+
+链接激光雷达要配置有限网静态ip地址
+
+打开/etc/network/interfaces，修改部分如下所示
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.1.77
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+```
+然后，重启网络
+```
+/etc/init.d/networking restart
+```
+这时候，打开浏览器输入192.168.1.201可以看到激光雷达的配置文件，说明此时可以连接到了激光雷达有线网。
+
+但是，会发现此时无法使用wifi连接公网，这时候我们还需要配置一下默认网关。
+
+查看网关信息：
+```
+ip route show
+```
+显示如下：
+```
+default via 192.168.1.1 dev eth0 onlink
+default via 10.0.0.1 dev wlan0  proto static  metric 600
+10.0.0.0/24 dev wlan0  proto kernel  scope link  src 10.0.0.14  metric 600
+169.254.0.0/16 dev eth0  scope link  metric 1000
+172.17.0.0/16 dev docker0  proto kernel  scope link  src 172.17.0.1 linkdown
+192.168.1.0/24 dev eth0  proto kernel  scope link  src 192.168.1.77
+192.168.55.0/24 dev l4tbr0  proto kernel  scope link  src 192.168.55.1 linkdown
+```
+这里面最上面的默认网关192.168.1.1是有线网的网关，下面的默认网关10.0.0.1是无线网的默认网关，我们删除有线网的默认网关，只保留无线网的网关，这样系统如果找不到可用的网关，就把数据包发给默认指定的无线网关，由这个网关来处理数据包。
+```
+sudo route del default gw 192.168.1.1
+```
+再查看网关信息显示如下：
+```
+default via 10.0.0.1 dev wlan0  proto static  metric 600
+10.0.0.0/24 dev wlan0  proto kernel  scope link  src 10.0.0.14  metric 600
+169.254.0.0/16 dev eth0  scope link  metric 1000
+172.17.0.0/16 dev docker0  proto kernel  scope link  src 172.17.0.1 linkdown
+192.168.1.0/24 dev eth0  proto kernel  scope link  src 192.168.1.77
+192.168.55.0/24 dev l4tbr0  proto kernel  scope link  src 192.168.55.1 linkdown
+```
+这样我们在打开浏览器，就可以正常访问公网和激光雷达网络了。
+
+但是要注意的是，这个方法在重启之后就会失效了，需要每次开机重新来一次，而且如果执行`sudo /etc/init.d/networking restart`也会失效。
+
+### 41、递进新生成新文件夹
+```
+mkdir -p catkin_velodyne/src
+```
+### 42、C++纯虚函数
+纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。
+
+在基类中实现纯虚函数的方法是在函数原型后加“=0”
+```
+virtual void funtion1()=0
+```
+
+纯虚函数是在基类中声明的虚函数，它要求任何派生类都要定义自己的实现方法，以实现多态性。实现了纯虚函数的子类，该纯虚函数在子类中就变成了虚函数。
+
+定义纯虚函数是为了实现一个接口，用来规范派生类的行为，也即规范继承这个类的程序员必须实现这个函数。派生类仅仅只是继承函数的接口。纯虚函数的意义在于，让所有的类对象（主要是派生类对象）都可以执行纯虚函数的动作，但基类无法为纯虚函数提供一个合理的缺省实现。所以类纯虚函数的声明就是在告诉子类的设计者，“你必须提供一个纯虚函数的实现，但我不知道你会怎样实现它”。
+
+**把相应的虚函数, 末尾添加"=0",该虚函数就变为纯虚函数, 可以不用添加定义;**
+
+**如果是其他虚函数, 即使不使用, 也必须定义(define);**
+
+### 43、 c++构造函数
+我们知道有时候当我们仅创建了有参构造函数后，如果你想调用无参构造函数编译是会报错的。
+
+因为一旦你自己定义了构造函数，系统的默认构造函数是被屏蔽的，也就是说此时是没有无参构造函数的，所以我们需要自己定义一个无参构造函数。
+
+但是现在在C++11中，如果我们仅定义了有参构造函数，可以通过default关键字让默认构造函数恢复
+
+```c++
+class CString
+{
+    char* _str = nullptr;
+public:
+    CString() = default;  //恢复默认构造函数
+    CString(const char* pstr) : _str(nullptr)  //自定义的有参构造
+    {
+        UpdateString(pstr);
+    }
+}
+```
+
+### 44、c++11 : default关键字的作用
+
+为了解决两个问题：1. 减轻程序员的编程工作量；2. 获得编译器自动生成的默认特殊成员函数的高的代码执行效率，C++11 标准引入了一个新特性：defaulted 函数。
+
+程序员只需在函数声明后加上“=default;”，就可将该函数声明为 defaulted 函数，编译器将为显式声明的 defaulted 函数自动生成函数体。例如：
+
+```c++
+class X{
+public:
+  X()= default;
+  X(int i){
+    a = i;
+  }
+private:
+  int a;
+};
+
+X x;
+```
+如上所示，编译器会自动生成默认构造函数 X::X(){}，该函数可以比用户自己定义的默认构造函数获得更高的代码效率。
+
+https://www.ibm.com/developerworks/cn/aix/library/1212_lufang_c11new/index.html
+
+### 45、ros package.xml几个标签的区别
+package.xml
+Your package dependencies are declared in package.xml. If they are missing or incorrect, you may be able to build from source and run tests in your own workspace, but your package will not work correctly when released to the ROS community. Others rely on this information to install the software they need for using your package.
+
+------------------
+
+**`<depend>`**
+
+It is generally sufficient to mention each ROS package dependency once, like this:
+
+**`<depend>roscpp</depend>`**
+
+Sometimes, you may need or want more granularity for certain dependencies. The following sections explain how to do that. If in doubt, use the <depend> tag, it’s simpler.
+
+------------------
+
+**`<build_depend>`**
+
+If you only use some particular dependency for building your package, and not at execution time, you can use the <build_depend> tag. For example, the ROS angles package only provides C++ headers and CMake configuration files:
+
+**`<build_depend>angles</build_depend>`**
+
+With this type of dependency, an installed binary of your package does not require the angles package to be installed.
+
+But, that could create a problem if your package exports a header that includes the <angles/angles.h> header. In that case you also need a <build_export_depend>.
+
+----------------------
+
+**`<build_export_depend>`**
+
+If you export a header that includes <angles/angles.h>, it will be needed by other packages that <build_depend> on yours:
+
+**`<build_export_depend>angles</build_export_depend>`**
+
+This mainly applies to headers and CMake configuration files. Library packages referenced by libraries you export should normally specify <depend>, because they are also needed at execution time.
+
+--------------------------
+
+**`<exec_depend>`**
+
+This tag declares dependencies for shared libraries, executables, Python modules, launch scripts and other files required when running your package. For example, the ROS openni_launch package provides launch scripts, which are only needed at execution time:
+
+**`<exec_depend>openni_launch</exec_depend>`**
+
+### 46、c++ volatile 用法解析
+
+一个定义为volatile的变量是说这变量可能会被意想不到地改变，这样，编译器就不会去假设这个变量的值了。精确地说就是，优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。
+
+volatile 影响编译器编译的结果，volatile 变量是随时可能发生变化的，与volatile变量有关的运算，不要进行编译优化，以免出错（VC++ 在产生release版可执行码时会进行编译优化，加volatile关键字的变量有关的运算，将不进行编译优化）
+例如：
+```
+volatile int i=10;
+int j = i;
+...
+int k = i;
+```
+volatile 告诉编译器i是随时可能发生变化的，每次使用它的时候必须从i的地址中读取，因而编译器生成的可执行码会重新从i的地址读取数据放在k中。
+
+而优化做法是，由于编译器发现两次从i读数据的代码之间的代码没有对i进行过操作，它会自动把上次读的数据放在k中。而不是重新从i里面读。这样以来，如果i是一个寄存器变量或者表示一个端口数据就容易出错，所以说volatile可以保证对特殊地址的稳定访问，不会出错。
+
+
+下面是需要使用volatile变量的几个例子：
+
+- 1) 并行设备的硬件寄存器（如：状态寄存器）
+- 2) 一个中断服务子程序中会访问到的非自动变量(Non-automatic variables)
+- 3) 多线程应用中被几个任务共享的变量
+
+回答不出这个问题的人是不会被雇佣的。我认为这是区分C程序员和嵌入式系统程序员的最基本的问题。搞嵌入式的家伙们经常同硬件、中断、RTOS等等打交道， 所有这些都要求用到volatile变量。不懂得volatile的内容将会带来灾难。假设被面试者正确地回答了这是问题（嗯，怀疑是否会是这样），我将稍微深究一下，看一下这家伙是不是直正懂得volatile完全的重要性。
+
+1)一个参数既可以是const还可以是volatile吗？解释为什么。
+2); 一个指针可以是volatile 吗？解释为什么。
+3); 下面的函数有什么错误：
+```
+int square(volatile int *ptr)
+{
+return *ptr * *ptr;
+}
+```
+下面是答案：
+1)是的。一个例子是只读的状态寄存器。它是volatile因为它可能被意想不到地改变。它是const因为程序不应该试图去修改它。
+2); 是的。尽管这并不很常见。一个例子是当一个中服务子程序修该一个指向一个buffer的指针时。
+3) 这段代码有点变态。这段代码的目的是用来返指针*ptr指向值的平方，但是，由于*ptr指向一个volatile型参数，编译器将产生类似下面的代码：
+```
+int square(volatile int *ptr)
+{
+int a,b;
+a = *ptr;
+b = *ptr;
+return a * b;
+}
+由于*ptr的值可能被意想不到地该变，因此a和b可能是不同的。结果，这段代码可能返不是你所期望的平方值！正确的代码如下：
+long square(volatile int *ptr)
+{
+int a;
+a = *ptr;
+return a * a;
+}
+```
