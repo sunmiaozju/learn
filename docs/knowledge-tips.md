@@ -1,8 +1,7 @@
-1、
-np.unique()  获取非相同元素
+1、np.unique()
+ 获取非相同元素
 
-2、
-一些os操作命令：持续更新：
+2、一些os操作命令：持续更新：
 os.listdir()    用于返回指定的文件夹包含的文件或文件夹的名字的列表。这个列表以字母顺序。 它不包括 '.' 和'..' 即使它在文件夹中。
 os.path.abspath(__file__) 列出当前执行文件的绝对路径。例如：/home/sunmiao/projects/caffe/pointnet/train.py
 __file__ 是自己文件的文件名。例如：train.py
@@ -12,8 +11,7 @@ os,path.exists() 判断路径是否存在
 os.mkdir() 创建一个新的路径
 os.system(''cmd'')  类似于在shell执行系统命令cmd
 
-3、
-函数名称： tf.Graph.as_default()
+3、函数： tf.Graph.as_default()
 返回值：返回一个上下文管理器，这个上下文管理器使用这个图作为默认的图
 说明：如果你想在一个进程里创建多个图，可能会用到这个方法。
    为了方便，如果你没有显式创建一个图的话，系统提供了一个全局默认的图，默认把所有的操作都添加到全局默认图中。使用这个方法的话，（配合with关键词使用），可以只把with块里的操作添加到默认图中。默认图是当前线程的一个属性，如果你创建了一个新的线程，想使用全局默认图，必须显式调用这个方法。
@@ -196,9 +194,9 @@ https://blog.csdn.net/qq_28618765/article/details/78086478
 
 29、
 使用下面这种格式去压缩一个目录：
-# tar -zcvf archive_name.tar.gz directory_to_compress
+tar -zcvf archive_name.tar.gz directory_to_compress
 解压缩tar.gz文件：
-# tar -zxvf archive_name.tar.gz
+tar -zxvf archive_name.tar.gz
 解压tar.bz2文件
 
 tar - jxvf  ×××.tar.bz2
@@ -206,28 +204,29 @@ tar - jxvf  ×××.tar.bz2
 
 30、
 绘制车道线并且提取不同的车道线轮廓
-#img_mask是二值化的车道线图，但是为3通道
+img_mask是二值化的车道线图，但是为3通道
 
 imgray = cv2.cvtColor(img_mask, cv2.COLOR_BGR2GRAY)
-#这样就变成了一通道
+这样就变成了一通道
 
 ret, thresh = cv2.threshold(imgray, 250, 255, 0)
-#确保像素值250以上都归为255
+确保像素值250以上都归为255
 
 im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-#计算轮廓线，返回的是一系列轮廓点坐标的列表
+计算轮廓线，返回的是一系列轮廓点坐标的列表
 
 img_contours = np.zeros(img.shape, dtype=np.uint8)
-#生成图片底板
+生成图片底板
 
 cv2.drawContours(img_contours, contours, 0, White_color, -1, 1)
-#绘制轮廓线，第三个参数代表绘制轮廓线的第几条，如果为负数代表全部都绘制，第四个参数代表绘制的颜色,第五个-1代
+绘制轮廓线，第三个参数代表绘制轮廓线的第几条，如果为负数代表全部都绘制，第四个参数代表绘制的颜色,第五个-1代
 表填充绘制
 https://blog.csdn.net/sunny2038/article/details/12889059
 
 31、python添加中文编码
+```
 # -*- coding: utf-8 -*-
-
+```
 32、
 https://blog.csdn.net/tengfei461807914/article/details/76626631
 opencv轮廓检测合集
@@ -363,9 +362,9 @@ cat 命令用于连接文件并打印到标准输出设备上。
 
 47、
 程序工作目录更改
-# 切换到某一个目录
+切换到某一个目录
 os.chdir("/var/www/html" )
-# 获取进程当前目录
+获取进程当前目录
 os.getcwd()
 
 48、
@@ -622,19 +621,19 @@ np.cumsum(矩阵，axis=)
 
 a = np.cumsum([[1,2],[2,3]])
 print(a)
-#[1 3 5 8]  不指定轴信息，由前面的值依次累加
+[1 3 5 8]  不指定轴信息，由前面的值依次累加
 
 b = np.cumsum([[1,2],[2,3]],axis=0)
 print(b)
-#[[1 2]
-# [3 5]]
-#每列累加
+[[1 2]
+ [3 5]]
+每列累加
 
 c = np.cumsum([[1,2],[2,3]],axis=1)
 print(c)
-#[[1 3]
-# [2 5]]
-#每行累加
+[[1 3]
+ [2 5]]
+每行累加
 
 73、
 list1.extend(list2)
