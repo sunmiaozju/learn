@@ -3,8 +3,8 @@
 
 1. [知识点整理1](docs/knowledge-tips.txt)
 2. [知识点整理2](docs/knowledge-tips2.md)
-3. [pcd格式文件前缀解读](docs/pcd.md)
-4. [git学习总结](docs/gitlearn.md)
+3. [知识点整理3](docs/knowledge-tips3.md)
+4. [知识点整理4](docs/knowledge-tips4.md)
 5. [c++多线程总结](docs/thread_learn.md)
 6. [ros CMakeLists.txt解读](docs/CMakeList_learn.md)
 7. [TX2 使用razor-9dof IMU](docs/IMU_TX2.md)
@@ -15,3 +15,5 @@
 12. [opencv 图像深拷贝、浅拷贝与蒙版拷贝](docs/opencv-copy-image.md)
 13. [视觉激光雷达信息融合与联合标定](docs/joint_pixel_pointcloud.md)
 14. [基于采样的局部规划与避障算法](docs/local_planner.md)
+15. [pcd格式文件前缀解读](docs/pcd.md)
+16. [git学习总结](docs/gitlearn.md)
