@@ -858,16 +858,20 @@ int main(int argc,char** argv)
 ```
 　　
 　　则sizeof(my_stu)可以得到大小为15。
-　　
+　
 　　上面的定义等同于
-```　　
-　　struct stu{
+
+
+```c　　
+struct stu{
 　　 char sex;
 　　 int length;
 　　 char name[10];
-　　}__attribute__ ((packed));
-　　struct stu my_stu;
+}__attribute__ ((packed));
+
+struct stu my_stu;
 ```
+
 　　\__attribute__((packed))得变量或者结构体成员使用最小的对齐方式，即对变量是一字节对齐，对域（field）是位对齐.
 　　
 五、什么时候需要设置对齐
@@ -1027,7 +1031,8 @@ struct B
 ```
 假设B从地址空间0x0000开始排放。该例子中没有定义指定对齐值，在笔者环境下，该值默认为4。第一个成员变量b的自身对齐值是1，比指定或者默认指定对齐值4小，所以其有效对齐值为1，所以其存放地址0x0000符合0x0000%1=0.第二个成员变量a，其自身对齐值为4，所以有效对齐值也为4，所以只能存放在起始地址为0x0004到0x0007这四个连续的字节空间中，复核0x0004%4=0,且紧靠第一个变量。第三个变量c,自身对齐值为2，所以有效对齐值也是2，可以存放在0x0008到0x0009这两个字节空间中，符合0x0008%2=0。所以从0x0000到0x0009存放的都是B内容。再看数据结构B的自身对齐值为其变量中最大对齐值(这里是b）所以就是4，所以结构体的有效对齐值也是4。根据结构体圆整的要求，0x0009到0x0000=10字节，（10＋2）％4＝0。所以0x0000A到0x000B也为结构体B所占用。故B从0x0000到0x000B共有12个字节,sizeof(struct B)=12;其实如果就这一个就来说它已将满足字节对齐了,因为它的起始地址是0,因此肯定是对齐的,之所以在后面补充2个字节,是因为编译器为了实现结构数组的存取效率,试想如果我们定义了一个结构B的数组,那么第一个结构起始地址是0没有问题,但是第二个结构呢?按照数组的定义,数组中所有元素都是紧挨着的,如果我们不把结构的大小补充为4的整数倍,那么下一个结构的起始地址将是0x0000A,这显然不能满足结构的地址对齐了,因此我们要把结构补充成有效对齐大小的整数倍.其实诸如:对于char型数据，其自身对齐值为1，对于short型为2，对于int,float,double类型，其自身对齐值为4，这些已有类型的自身对齐值也是基于数组考虑的,只是因为这些类型的长度已知了,所以他们的自身对齐值也就已知了.
 同理,分析上面例子C：
-```
+
+```c
 #pragma pack (2) /*指定按2字节对齐*/
 struct C
 {
@@ -1037,6 +1042,7 @@ struct C
 };
 #pragma pack () /*取消指定对齐，恢复缺省对齐*/
 ```
+
 第一个变量b的自身对齐值为1，指定对齐值为2，所以，其有效对齐值为1，假设C从0x0000开始，那么b存放在0x0000，符合0x0000%1=0;第二个变量，自身对齐值为4，指定对齐值为2，所以有效对齐值为2，所以顺序存放在0x0002、0x0003、0x0004、0x0005四个连续字节中，符合0x0002%2=0。第三个变量c的自身对齐值为2，所以有效对齐值为2，顺序存放
 在0x0006、0x0007中，符合0x0006%2=0。所以从0x0000到0x00007共八字节存放的是C的变量。又C的自身对齐值为4，所以C的有效对齐值为2。又8%2=0,C只占用0x0000到0x0007的八个字节。所以sizeof(struct C)=8.
 
@@ -1060,7 +1066,8 @@ reserved成员对我们的程序没有什么意义,它只是起到填补空间�
 六.字节对齐可能带来的隐患:
 
 代码中关于对齐的隐患，很多是隐式的。比如在强制类型转换的时候。例如：
-```
+
+```c
 unsigned int i = 0x12345678;
 unsigned char *p=NULL;
 unsigned short *p1=NULL;
@@ -1070,6 +1077,7 @@ p=&i;
 p1=(unsigned short *)(p+1);
 *p1=0x0000;
 ```
+
 最后两句代码，从奇数边界去访问unsignedshort型变量，显然不符合对齐的规定。
 在x86上，类似的操作只会影响效率，但是在MIPS或者sparc上，可能就是一个error,因为它们要求必须字节对齐.
 
@@ -1157,4 +1165,315 @@ struct B {
 
 4
 
-输出都是4，说明之前的int影响对齐！
+输出都是4，说明之前的int影响对齐
+
+### 22、static关键字作用
+
+1. 全局静态变量
+在全局变量前加上关键字static，全局变量就定义成一个全局静态变量.
+
+静态存储区，在整个程序运行期间一直存在。
+
+初始化：未经初始化的全局静态变量会被自动初始化为0（自动对象的值是任意的，除非他被显式初始化）；
+
+作用域：全局静态变量在声明他的文件之外是不可见的，准确地说是从定义之处开始，到文件结尾。
+
+2.  局部静态变量
+
+在局部变量之前加上关键字static，局部变量就成为一个局部静态变量。
+
+内存中的位置：静态存储区
+
+初始化：未经初始化的全局静态变量会被自动初始化为0（自动对象的值是任意的，除非他被显式初始化）；
+
+作用域：作用域仍为局部作用域，当定义它的函数或者语句块结束的时候，作用域结束。但是当局部静态变量离开作用域后，并没有销毁，而是仍然驻留在内存当中，只不过我们不能再对它进行访问，直到该函数再次被调用，并且值不变；
+
+3. 静态函数
+
+在函数返回类型前加static，函数就定义为静态函数。
+
+==函数的定义和声明在默认情况下都是extern的==，但静态函数只是在声明他的文件当中可见，不能被其他文件所用。
+
+函数的实现使用static修饰，那么这个函数只可在本cpp内使用，不会同其他cpp中的同名函数引起冲突；
+
+warning：不要再头文件中声明static的全局函数，不要在cpp内声明非static的全局函数，如果你要在多个cpp中复用该函数，就把它的声明提到头文件里去，否则cpp内部声明需加上static修饰；
+
+4. 类的静态成员
+
+在类中，静态成员可以实现多个对象之间的数据共享，并且使用静态数据成员还不会破坏隐藏的原则，即保证了安全性。因此，静态成员是类的所有对象中共享的成员，而不是某个对象的成员。对多个对象来说，静态数据成员只存储一处，供所有对象共用
+
+5. 类的静态函数
+
+静态成员函数和静态数据成员一样，它们都属于类的静态成员，它们都不是对象成员。因此，对静态成员的引用不需要用对象名。
+
+在静态成员函数的实现中不能直接引用类中说明的非静态成员，可以引用类中说明的静态成员（这点非常重要）。如果静态成员函数中要引用非静态成员时，可通过对象来引用。从中可看出，调用静态成员函数使用如下格式：<类名>::<静态成员函数名>(<参数表>);
+
+### 21、C++中四种类型转换
+
+C++中四种类型转换是：static_cast, dynamic_cast, const_cast, reinterpret_cast
+1、const_cast
+
+用于将const变量转为非const
+
+2、static_cast
+
+用于各种隐式转换，比如非const转const，void*转指针等, static_cast能用于多态向上转化，如果向下转能成功但是不安全，结果未知；
+
+3、dynamic_cast
+
+用于动态类型转换。只能用于含有虚函数的类，用于类层次间的向上和向下转化。只能转指针或引用。向下转化时，如果是非法的对于指针返回NULL，对于引用抛异常。要深入了解内部转换的原理。
+
+向上转换：指的是子类向基类的转换
+
+向下转换：指的是基类向子类的转换
+
+它通过判断在执行到该语句的时候变量的运行时类型和要转换的类型是否相同来判断是否能够进行向下转换。
+
+4、reinterpret_cast
+
+几乎什么都可以转，比如将int转指针，可能会出问题，尽量少用；
+
+5、为什么不使用C的强制转换？
+
+C的强制转换表面上看起来功能强大什么都能转，但是转化不够明确，不能进行错误检查，容易出错。
+
+### 22、ubuntu查看软件包安装目录
+如果知道是用 apt-get install 方法安装的，可以直接用 dpkg -S 软件名（注意是大写S）命令显示所有包含该软件包的目录
+
+### 23、vector::erase()
+vector::erase()：从指定容器删除指定位置的元素或某段范围内的元素
+vector::erase()方法有两种重载形式
+如下：
+iterator erase(   iterator _Where);
+iterator erase(   iterator _First,   iterator _Last);
+如果是删除指定位置的元素时：
+返回值是一个迭代器，指向删除元素下一个元素;
+如果是删除某范围内的元素时：返回值也表示一个迭代器，指向最后一个删除元素的下一个元素;
+
+### 24、cvRound(), cvFloor(), cvCeil()函数
+
+函数cvRound，cvFloor，cvCeil 都是用一种舍入的方法将输入浮点数转换成整数：
+```
+cvRound()：返回跟参数最接近的整数值，即四舍五入；
+cvFloor()：返回不大于参数的最大整数值，即向下取整；
+cvCeil()：返回不小于参数的最小整数值，即向上取整；
+```
+### 25、C++静态成员变量的初始化
+
+需要注意的是：静态数据成员不能在类中初始化，一般在类外和main()函数之前初始化，缺省时初始化为0。
+
+1. static成员的所有者是类本身，但是多个对象拥有一样的静态成员。从而在定义对象是不能通过构造函数对其进行初始化。
+
+2. 静态成员不能在类定义里边初始化，只能在class body外初始化。
+3. 静态成员仍然遵循public，private，protected访问准则。
+4. 静态成员函数没有this指针，它不能返回非静态成员，因为除了对象会调用它外，类本身也可以调用
+
+静态成员属于全局变量，是所有实例化以后的对象所共享的，而成员的初始化你可以想象成向系统申请内存存储数据的过程，显然这种共有对象。不能在任何函数和局部作用域中初始化。
+
+```c
+class point{
+public:
+	point(){};
+//	...
+private:
+	static int x,y;
+};
+int point::x = 0;
+int point::y = 0;
+
+int main(){
+//	...
+}
+```
+
+### 26、 c++ 类中typedef的类型别名的作用
+
+typedef long INDEX 给long这样的类型起别名，它有两个用处：一是表明该类型的特殊作用，二是将来有可能要改变这种类型（比如提高精度），
+
+但是现在了解到可以在class类里面使用(并且还有public,private之分哦) C++引入“仅在类内部起作用的类型别名”的初衷应该不难理解：通过限制该类型别名的作用域来防止冲突。在函数体内部typedef，这个别名在函数体以外不可以使用，也就是说，“类型别名”和变量、函数一样具有作用域。
+c中有了#define 为什么还要typedef就是为了增强安全和健壮性
+
+随便记录下c中的常量(#define pi = 3.14)和c++中的常量(const double pi = 3.14)，前者只是简单的替换，后者还要经过一系列的编译器的安全检查的， 这也是增加了安全性
+
+我也试了试 #define 是否可以再class类里面使用， 结果是可以的， 但是#define是没有作用域的， 也没有什么public, private之分的， 就相当于一个全局的变量， 什么都可以使用
+```
+class MyClass
+{
+public:
+　　typedef long INDEX;
+...
+};
+```
+
+如果该语句放在public段中，则可以在类外部使用，比如：
+```
+MyClass::INDEX usercode;//声明一个变量
+```
+而如果放在private段中，则只能在类内使用。
+
+----
+
+以往我也经常用typedef，但是从来没有在类里面用过。
+
+今天算是学了一招了。C++引入“仅在类内部起作用的类型别名”的初衷应该不难理解：通过限制该类型别名的作用域来防止冲突。比如同样表示长度，可能有的类中只须char即可，有的类中要用int，而有的类可能连long都嫌小。那么，我一概起个别名叫“size”，不同的类中有不同的定义。
+
+于是，下面的声明语句就足以避免冲突而且易于理解：
+```
+MyClass::size MyClass::GetSize() const;
+```
+
+进而，我试验了一下在函数体内部typedef，果然这个别名在函数体以外不可以使用，也就是说，“类型别名”和变量、函数一样具有作用域。
+
+至此，我们可以回过来考虑一下，为什么C++有了“#define”还要“typedef”。过去我始终没有细想过这个原因。原来这样做是为了安全性与健壮性。
+
+　　这里，我联想到了const，C语言中没有常量这个概念，如果要用常量，就用“#define pi 3.14”这种形式，但是C++有了“const double pi = 3.14;”虽说继续用前者一样可以写出程序，但这等于放弃了编译器的安全检查。
+
+　　“#define”产生的效果在编译之前就起作用了，所有的pi都被替换成了3.14这样一个“立即数”，立即数是没有类型的，于是，在程序编写过程中不可能给予合适的提醒，在程序的编译中也可能产生意想不到的副作用。const将常量作为有类型的数据进行有效管理，既提供了常量的优点，也给予了足够的安全性。而且，const常量是有作用域的，在程序的不同位置可以给予不同精度的pi。
+
+### 27、 c++ lamada 表达式
+
+C++11提供了对匿名函数的支持,称为Lambda函数(也叫Lambda表达式). Lambda表达式具体形式如下:
+
+```c
+[capture](parameters)->return-type{body}
+```
+
+如果没有参数,空的圆括号()可以省略.返回值也可以省略,如果函数体只由一条return语句组成或返回类型为void的话.形如:
+```c
+[capture](parameters){body}
+```
+　　下面举了几个Lambda函数的例子:  　　　　
+```c
+[](int x, int y) { return x + y; } // 隐式返回类型
+[](int& x) { ++x; }   // 没有return语句 -> lambda 函数的返回类型是'void'
+[]() { ++global_x; }  // 没有参数,仅访问某个全局变量
+[]{ ++global_x; }     // 与上一个相同,省略了()
+```
+可以像下面这样显示指定返回类型:
+
+```c
+[](int x, int y) -> int { int z = x + y; return z; }
+```
+
+在这个例子中创建了一个临时变量z来存储中间值. 和普通函数一样,这个中间值不会保存到下次调用. 什么也不返回的Lambda函数可以省略返回类型, 而不需要使用 -> void 形式.
+　　Lambda函数可以引用在它之外声明的变量. 这些变量的集合叫做一个闭包. 闭包被定义在Lambda表达式声明中的方括号[]内. 这个机制允许这些变量被按值或按引用捕获.下面这些例子就是:
+
+```c
+[]        //未定义变量.试图在Lambda内使用任何外部变量都是错误的.
+[x, &y]   //x 按值捕获, y 按引用捕获.
+[&]       //用到的任何外部变量都隐式按引用捕获
+[=]       //用到的任何外部变量都隐式按值捕获
+[&, x]    //x显式地按值捕获. 其它变量按引用捕获
+[=, &z]   //z按引用捕获. 其它变量按值捕获
+```
+　　接下来的两个例子演示了Lambda表达式的用法.
+```
+std::vector<int> some_list;
+int total = 0;
+for (int i=0;i<5;++i) some_list.push_back(i);
+std::for_each(begin(some_list), end(some_list), [&total](int x)
+{
+    total += x;
+});
+```
+　　此例计算list中所有元素的总和. 变量total被存为lambda函数闭包的一部分. 因为它是栈变量(局部变量)total的引用,所以可以改变它的值.
+
+　　一个没有指定任何捕获的lambda函数,可以显式转换成一个具有相同声明形式函数指针.所以,像下面这样做是合法的:
+
+```c
+auto a_lambda_func = [](int x) { /*...*/ };
+void(*func_ptr)(int) = a_lambda_func;
+func_ptr(4); //calls the lambda.
+```
+### 28、string函数 find_first_not_of()
+
+C++中string类的成员函数find_first_not_of()
+
+函数原型: 　
+
+```c
+#include <string> 
+// 返回在字符串中首次出现的不匹配str任何字符的首字符索引, 从index开始搜索, 如果全部匹配则返回string::npos。
+size_type find_first_not_of(const string &str,size_type index =0 )const; 　
+
+size_type find_first_not_of(const Char* str,size_type index =0 )const; 　　
+
+// 从index开始起搜索当前字符串, 查找其中与str前num个字符中的任意一个都不匹配的序列, 返回满足条件的第一个字符索引, 否则返回string::npos。
+size_type find_first_not_of(const Char* str,size_type index,size_type num )const; 　　
+
+// 返回在当前字符串中第一个不匹配ch字符的索引, 从index开始搜索, 没用收获则返回string::npos。
+size_type find_first_not_of(Char ch,size_type index =0 )const; 　　
+```
+
+总结：find_first_not_of() 用于查找一个字符串中 ，首先出现的不匹配指定字符串的元素的位置。
+
+实例：
+```
+string::size_type dashPos = name.find_first_not_of("-a-");
+cout << "--- " << dashPos << endl;
+```
+
+输出结果：
+```
+sunm@sunm-Legion:~/work/code/slambook/ch10/g2o_custombundle/build$ ./g2o_customBundle -atinput ../data/problem-16-22106-pre.txt
+--- 2
+Error: Unknown Option 'tinput' (use -help to get list of options).
+sunm@sunm-Legion:~/work/code/slambook/ch10/g2o_custombundle/build$ ./g2o_customBundle -tinput ../data/problem-16-22106-pre.txt
+--- 1
+Error: Unknown Option 'tinput' (use -help to get list of options).
+sunm@sunm-Legion:~/work/code/slambook/ch10/g2o_custombundle/build$ ./g2o_customBundle -atinput ../data/problem-16-22106-pre.txt
+--- 2
+Error: Unknown Option 'tinput' (use -help to get list of options).
+sunm@sunm-Legion:~/work/code/slambook/ch10/g2o_custombundle/build$ ./g2o_customBundle --tinput ../data/problem-16-22106-pre.txt
+--- 2
+Error: Unknown Option 'tinput' (use -help to get list of options).
+sunm@sunm-Legion:~/work/code/slambook/ch10/g2o_custombundle/build$ ./g2o_customBundle -a-tinput ../data/problem-16-22106-pre.txt
+--- 3
+Error: Unknown Option 'tinput' (use -help to get list of options).
+sunm@sunm-Legion:~/work/code/slambook/ch10/g2o_custombundle/build$ ./g2o_customBundle -a-tinput ../data/problem-16-22106-pre.txt
+```
+这里面name就是第二个命令行参数,指定匹配的子字符串就是“-a-”，可以看到输出的数字就是代表第一个没有匹配的字符的位置。
+
+附：
+>string::npos参数：
+>
+>npos 是一个常数，用来表示不存在的位置，类型一般是std::container_type::size_type 许多容器都提供这个东西。取值由实现决>定，一般是-1，这样做，就不会存在移植的问题了。
+
+### 29、string find 函数
+
+find函数的返回值是整数，即指定子字符串在原字符串的位置
+
+假如原字符串包含指定的子字符串，其返回值必定不等于npos，
+
+但如果字符串不存在包含关系，那么返回值就一定是npos。
+
+### 30、string substr 函数
+
+```
+std::string::substr
+string substr (size_t pos = 0, size_t len = npos) const;
+```
+功能：产生子串
+
+返回一个新建的初始化为string对象的子串的拷贝string对象。
+
+子串是，在字符位置pos开始，跨越len个字符（或直到字符串的结尾，以先到者为准）对象的部分。
+
+举例：
+
+```c
+// string::substr
+#include <iostream>
+#include <string>
+int main ()
+{
+  std::string str= "We think in generalities, but we live in details.";
+  std::string str2 = str.substr (3,5); // "think"
+
+  std::size_t pos = str.find("live"); // position of "live" in str
+  std::string str3 = str.substr (pos); // “live in details.”
+
+  std::cout << str2 << ' ' << str3 << '\n';
+  return 0;
+}
+```
